@@ -1,16 +1,53 @@
-# todo_tdd_bloc
+# Todo TDD BLoC
 
-Todo App with TDD and Bloc
+![Flutter CI](https://github.com/KronosCodeur/todo_tdd_bloc/workflows/Flutter%20CI/badge.svg)
 
-## Getting Started
+Une application Todo développée avec TDD, BLoC et Clean Architecture.
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- ✅ Test-Driven Development
+- ✅ Clean Architecture
+- ✅ BLoC State Management
+- ✅ 100% Test Coverage (objectif)
+- ✅ CI/CD avec GitHub Actions
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🧪 Tests
+```bash
+# Lancer tous les tests
+flutter test
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Lancer avec couverture
+flutter test --coverage
+
+```
+
+## 🏗️ Architecture
+```
+lib/
+├── core/              # Utilities, errors, constants
+├── features/
+│   └── todo/
+│       ├── domain/    # Entities, repositories, use cases
+│       ├── data/      # Models, data sources, repository impl
+│       └── presentation/  # BLoC, pages, widgets
+└── injection_container.dart
+```
+
+## 📦 Packages utilisés
+
+- `flutter_bloc` - State management
+- `get_it` - Dependency injection
+- `dartz` - Functional programming
+- `equatable` - Value equality
+- `shared_preferences` - Local storage
+- `mocktail` - Mocking pour tests
+- `bloc_test` - Testing BLoC
+
+## 🤝 Contributing
+
+Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou PR.
+
+## 📄 License
+
+MIT License
