@@ -8,18 +8,26 @@ import 'package:todo_tdd_bloc/features/todo/presentation/bloc/todo_bloc.dart';
 import 'package:todo_tdd_bloc/features/todo/presentation/bloc/todo_event.dart';
 import 'package:todo_tdd_bloc/features/todo/presentation/bloc/todo_state.dart';
 import 'package:bloc_test/bloc_test.dart';
-import '../../../../mocks/todo/mock_add_todo.dart';
-import '../../../../mocks/todo/mock_get_todos.dart';
+
+import '../../../../mocks/mocks_todo.dart';
 
 void main (){
   late TodoBloc bloc;
   late MockGetTodos mockGetTodos;
   late MockAddTodo mockAddTodo;
-
+  late MockToggleTodo mockToggleTodo;
+  late MockDeleteTodo mockDeleteTodo;
   setUp((){
     mockGetTodos = MockGetTodos();
     mockAddTodo = MockAddTodo();
-    bloc = TodoBloc(getTodos: mockGetTodos, addTodo: mockAddTodo);
+    mockToggleTodo = MockToggleTodo();
+    mockDeleteTodo = MockDeleteTodo();
+    bloc = TodoBloc(
+      getTodos: mockGetTodos,
+      addTodo: mockAddTodo,
+      toggleTodo: mockToggleTodo,
+      deleteTodo: mockDeleteTodo,
+    );
   });
     test('initial state should be TodoInitial', () {
       expect(bloc.state, equals(TodoInitial()));
@@ -85,6 +93,86 @@ void main (){
       expect: () => [
         TodoLoading(),
         TodoError('Server Failure'),
+      ],
+    );
+  });
+  group('ToggleTodoEvent', () {
+    final tTodos = [
+      Todo(id: '1', title: 'Test 1', isCompleted: false),
+      Todo(id: '2', title: 'Test 2', isCompleted: true),
+    ];
+    final tToggledTodo = Todo(id: '1', title: 'Test 1', isCompleted: true);
+
+    blocTest<TodoBloc, TodoState>(
+      'should emit [TodoLoading, TodoLoaded] with toggled todo',
+      build: () {
+        when(() => mockToggleTodo(any()))
+            .thenAnswer((_) async => Right(tToggledTodo));
+        return bloc;
+      },
+      seed: () => TodoLoaded(tTodos),
+      act: (bloc) => bloc.add(const ToggleTodoEvent('1')),
+      expect: () => [
+        TodoLoading(),
+        TodoLoaded([tToggledTodo, tTodos[1]]),
+      ],
+      verify: (_) {
+        verify(() => mockToggleTodo('1'));
+      },
+    );
+
+    blocTest<TodoBloc, TodoState>(
+      'should emit [TodoLoading, TodoError] when toggling fails',
+      build: () {
+        when(() => mockToggleTodo(any()))
+            .thenAnswer((_) async => Left(CacheFailure()));
+        return bloc;
+      },
+      seed: () => TodoLoaded(tTodos),
+      act: (bloc) => bloc.add(const ToggleTodoEvent('1')),
+      expect: () => [
+        TodoLoading(),
+        TodoError('Cache Failure'),
+      ],
+    );
+  });
+
+  group('DeleteTodoEvent', () {
+    final tTodos = [
+      Todo(id: '1', title: 'Test 1', isCompleted: false),
+      Todo(id: '2', title: 'Test 2', isCompleted: true),
+    ];
+
+    blocTest<TodoBloc, TodoState>(
+      'should emit [TodoLoading, TodoLoaded] with todo removed',
+      build: () {
+        when(() => mockDeleteTodo(any()))
+            .thenAnswer((_) async => const Right(unit));
+        return bloc;
+      },
+      seed: () => TodoLoaded(tTodos),
+      act: (bloc) => bloc.add(const DeleteTodoEvent('1')),
+      expect: () => [
+        TodoLoading(),
+        TodoLoaded([tTodos[1]]),
+      ],
+      verify: (_) {
+        verify(() => mockDeleteTodo('1'));
+      },
+    );
+
+    blocTest<TodoBloc, TodoState>(
+      'should emit [TodoLoading, TodoError] when deleting fails',
+      build: () {
+        when(() => mockDeleteTodo(any()))
+            .thenAnswer((_) async => Left(CacheFailure()));
+        return bloc;
+      },
+      seed: () => TodoLoaded(tTodos),
+      act: (bloc) => bloc.add(const DeleteTodoEvent('1')),
+      expect: () => [
+        TodoLoading(),
+        TodoError('Cache Failure'),
       ],
     );
   });

@@ -5,8 +5,7 @@ import 'package:todo_tdd_bloc/features/todo/domain/repositories/todo_repository.
 import 'package:mocktail/mocktail.dart';
 import 'package:todo_tdd_bloc/features/todo/domain/usecases/get_todos.dart';
 
-import '../../../../mocks/todo/mock_todo_repository.dart';
-
+import '../../../../mocks/mocks_todo.dart';
 
 void main() {
   late GetTodos usecase;

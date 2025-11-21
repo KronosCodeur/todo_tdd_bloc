@@ -4,7 +4,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:todo_tdd_bloc/features/todo/domain/entities/response_entity.dart';
 import 'package:todo_tdd_bloc/features/todo/domain/entities/todo.dart';
 import 'package:todo_tdd_bloc/features/todo/domain/usecases/add_todo.dart';
-import '../../../../mocks/todo/mock_todo_repository.dart';
+import '../../../../mocks/mocks_todo.dart';
+
 void main() {
   late AddTodo usecase;
   late MockTodoRepository mockTodoRepository;
