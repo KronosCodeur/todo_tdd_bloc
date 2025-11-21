@@ -18,6 +18,7 @@ class TodoRepositoryImpl implements TodoRepository {
       final todos = await localDataSource.getCachedTodos();
       return Right(todos);
     } on CacheException {
+
       return Left(CacheFailure());
     }
   }

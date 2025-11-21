@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_tdd_bloc/features/todo/presentation/pages/todo_page.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
+
+  // Initialiser le cache si vide
+  final prefs = di.sl<SharedPreferences>();
+  if (!prefs.containsKey('CACHED_TODOS')) {
+    await prefs.setString('CACHED_TODOS', '[]');
+  }
+
   runApp(const MyApp());
 }
 

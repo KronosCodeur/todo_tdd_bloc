@@ -8,7 +8,7 @@ import 'package:todo_tdd_bloc/features/todo/presentation/widgets/add_todo_button
 import 'package:todo_tdd_bloc/injection_container.dart';
 
 class TodoPage extends StatelessWidget {
-  const TodoPage({Key? key}) : super(key: key);
+  const TodoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class TodoPage extends StatelessWidget {
 }
 
 class TodoBody extends StatelessWidget {
-  const TodoBody({Key? key}) : super(key: key);
+  const TodoBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +39,33 @@ class TodoBody extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else if (state is TodoLoaded) {
           if (state.todos.isEmpty) {
-            return const Center(
-              child: Text(
-                'No todos yet!\nTap + to add one',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18),
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.check_circle_outline,
+                    size: 80,
+                    color: Colors.grey[400],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No todos yet!',
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.grey[600],
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Tap the + button to add your first todo',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                ],
               ),
             );
           }
@@ -53,16 +75,41 @@ class TodoBody extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Error: ${state.message}',
-                  style: const TextStyle(color: Colors.red, fontSize: 16),
+                Icon(
+                  Icons.error_outline,
+                  size: 80,
+                  color: Colors.red[300],
                 ),
                 const SizedBox(height: 16),
-                ElevatedButton(
+                Text(
+                  'Oops! Something went wrong',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.grey[700],
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  state.message,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton.icon(
                   onPressed: () {
                     context.read<TodoBloc>().add(LoadTodosEvent());
                   },
-                  child: const Text('Retry'),
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Retry'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                  ),
                 ),
               ],
             ),
