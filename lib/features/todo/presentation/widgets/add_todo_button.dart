@@ -4,7 +4,7 @@ import 'package:todo_tdd_bloc/features/todo/presentation/bloc/todo_bloc.dart';
 import 'package:todo_tdd_bloc/features/todo/presentation/bloc/todo_event.dart';
 
 class AddTodoButton extends StatelessWidget {
-  const AddTodoButton({Key? key}) : super(key: key);
+  const AddTodoButton({super.key});
 
   @override
   Widget build(BuildContext context) {

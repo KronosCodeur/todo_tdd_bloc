@@ -6,9 +6,9 @@ class TodoList extends StatelessWidget {
   final List<Todo> todos;
 
   const TodoList({
-    Key? key,
+    super.key,
     required this.todos,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

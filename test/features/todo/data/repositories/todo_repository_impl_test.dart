@@ -55,7 +55,6 @@ void main() {
 
   group('addTodo', () {
     const tTitle = 'New Todo';
-    final tNewTodo = TodoModel(id: '3', title: tTitle, isCompleted: false);
     final tExistingTodos = [
       TodoModel(id: '1', title: 'Test 1', isCompleted: false),
     ];

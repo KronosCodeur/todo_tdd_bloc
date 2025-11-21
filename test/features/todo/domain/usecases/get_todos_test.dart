@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todo_tdd_bloc/features/todo/domain/entities/todo.dart';
-import 'package:todo_tdd_bloc/features/todo/domain/repositories/todo_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:todo_tdd_bloc/features/todo/domain/usecases/get_todos.dart';
 
