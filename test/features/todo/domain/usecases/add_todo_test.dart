@@ -18,12 +18,27 @@ void main() {
   test('should add a todo through the repository', () async {
     const tTitle = 'New Todo';
     final tTodo = Todo(id: '1', title: tTitle, isCompleted: false);
-    when(() => mockTodoRepository.addTodo(tTitle))
-        .thenAnswer((_) async => Right(ResponseEntity<Todo>(data: tTodo, success: true, message: 'Todo added successfully')));
+    when(() => mockTodoRepository.addTodo(tTitle)).thenAnswer(
+      (_) async => Right(
+        ResponseEntity<Todo>(
+          data: tTodo,
+          success: true,
+          message: 'Todo added successfully',
+        ),
+      ),
+    );
     final result = await usecase(tTitle);
-    expect(result, Right(ResponseEntity<Todo>(data: tTodo, success: true, message: 'Todo added successfully')));
+    expect(
+      result,
+      Right(
+        ResponseEntity<Todo>(
+          data: tTodo,
+          success: true,
+          message: 'Todo added successfully',
+        ),
+      ),
+    );
     verify(() => mockTodoRepository.addTodo(tTitle));
     verifyNoMoreInteractions(mockTodoRepository);
   });
-
 }

@@ -28,26 +28,30 @@ void main() {
     );
   }
 
-  group('Todo Item Widget', (){
+  group('Todo Item Widget', () {
     final testTodo = Todo(id: '1', title: 'Test Todo', isCompleted: false);
-    final completedTodo = Todo(id: '2', title: 'Completed Todo', isCompleted: true);
+    final completedTodo = Todo(
+      id: '2',
+      title: 'Completed Todo',
+      isCompleted: true,
+    );
 
-    testWidgets('should display todo title', (tester) async{
-      await tester.pumpWidget(
-        makeTestableWidget(TodoItem(todo: testTodo)),
-      );
+    testWidgets('should display todo title', (tester) async {
+      await tester.pumpWidget(makeTestableWidget(TodoItem(todo: testTodo)));
       expect(find.text('Test Todo'), findsOneWidget);
     });
 
-    testWidgets('should display unchecked checkbox for incomplete todo', (tester) async{
-      await tester.pumpWidget(
-        makeTestableWidget(TodoItem(todo: testTodo)),
-      );
+    testWidgets('should display unchecked checkbox for incomplete todo', (
+      tester,
+    ) async {
+      await tester.pumpWidget(makeTestableWidget(TodoItem(todo: testTodo)));
       final checkbox = tester.widget<Checkbox>(find.byType(Checkbox));
       expect(checkbox.value, false);
     });
 
-    testWidgets('should display checked checkbox for completed todo', (tester) async{
+    testWidgets('should display checked checkbox for completed todo', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         makeTestableWidget(TodoItem(todo: completedTodo)),
       );
@@ -55,22 +59,25 @@ void main() {
       expect(checkbox.value, true);
     });
 
-    testWidgets('should addToggleTodoEvent when checkbox is tapped', (tester) async{
-      await tester.pumpWidget(
-        makeTestableWidget(TodoItem(todo: testTodo)),
-      );
+    testWidgets('should addToggleTodoEvent when checkbox is tapped', (
+      tester,
+    ) async {
+      await tester.pumpWidget(makeTestableWidget(TodoItem(todo: testTodo)));
       await tester.tap(find.byType(Checkbox));
       verify(() => mockTodoBloc.add(ToggleTodoEvent(testTodo.id))).called(1);
     });
 
-      testWidgets('should show delete dialog when delete icon is tapped', (tester) async{
-      await tester.pumpWidget(
-        makeTestableWidget(TodoItem(todo: testTodo)),
-      );
+    testWidgets('should show delete dialog when delete icon is tapped', (
+      tester,
+    ) async {
+      await tester.pumpWidget(makeTestableWidget(TodoItem(todo: testTodo)));
       await tester.tap(find.byIcon(Icons.delete_outline));
       await tester.pumpAndSettle();
       expect(find.text('Delete Todo'), findsOneWidget);
-      expect(find.text('Are you sure you want to delete "Test Todo"?'), findsOneWidget);
+      expect(
+        find.text('Are you sure you want to delete "Test Todo"?'),
+        findsOneWidget,
+      );
     });
   });
 }

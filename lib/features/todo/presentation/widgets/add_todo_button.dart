@@ -43,7 +43,9 @@ class AddTodoButton extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               if (controller.text.trim().isNotEmpty) {
-                context.read<TodoBloc>().add(AddTodoEvent(controller.text.trim()));
+                context.read<TodoBloc>().add(
+                  AddTodoEvent(controller.text.trim()),
+                );
                 Navigator.of(dialogContext).pop();
               }
             },

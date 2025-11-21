@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_tdd_bloc/core/error/exceptions.dart';
@@ -32,9 +30,7 @@ class TodoLocalDataSourceImpl implements TodoLocalDataSource {
 
   @override
   Future<void> cacheTodos(List<TodoModel> todos) {
-    final jsonString = json.encode(
-      todos.map((todo) => todo.toJson()).toList(),
-    );
+    final jsonString = json.encode(todos.map((todo) => todo.toJson()).toList());
     return sharedPreferences.setString(cachedTodos, jsonString);
   }
 }

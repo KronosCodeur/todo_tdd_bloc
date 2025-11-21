@@ -6,8 +6,6 @@ import 'package:todo_tdd_bloc/features/todo/domain/usecases/toggle_todo.dart';
 
 import '../../../../mocks/mocks_todo.dart';
 
-
-
 void main() {
   late ToggleTodo usecase;
   late MockTodoRepository mockRepository;
@@ -22,8 +20,9 @@ void main() {
     const tId = '1';
     final tTodo = Todo(id: '1', title: 'Test', isCompleted: true);
 
-    when(() => mockRepository.toggleTodo(any()))
-        .thenAnswer((_) async => Right(tTodo));
+    when(
+      () => mockRepository.toggleTodo(any()),
+    ).thenAnswer((_) async => Right(tTodo));
 
     // Act
     final result = await usecase(tId);

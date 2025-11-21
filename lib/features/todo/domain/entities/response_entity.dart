@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 class ResponseEntity<T> extends Equatable {
-   final bool success;
+  final bool success;
   final String message;
-   final T data;
+  final T data;
 
-   const ResponseEntity({
+  const ResponseEntity({
     required this.success,
     required this.message,
     required this.data,

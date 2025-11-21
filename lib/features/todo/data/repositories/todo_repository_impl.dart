@@ -18,7 +18,6 @@ class TodoRepositoryImpl implements TodoRepository {
       final todos = await localDataSource.getCachedTodos();
       return Right(todos);
     } on CacheException {
-
       return Left(CacheFailure());
     }
   }
@@ -30,20 +29,18 @@ class TodoRepositoryImpl implements TodoRepository {
 
       // Générer un nouvel ID (simple pour l'exemple)
       final newId = DateTime.now().millisecondsSinceEpoch.toString();
-      final newTodo = TodoModel(
-        id: newId,
-        title: title,
-        isCompleted: false,
-      );
+      final newTodo = TodoModel(id: newId, title: title, isCompleted: false);
 
       final updatedTodos = [...currentTodos, newTodo];
       await localDataSource.cacheTodos(updatedTodos);
 
-      return Right(ResponseEntity(
-        data: newTodo,
-        success: true,
-        message: 'Todo added successfully',
-      ));
+      return Right(
+        ResponseEntity(
+          data: newTodo,
+          success: true,
+          message: 'Todo added successfully',
+        ),
+      );
     } on CacheException {
       return Left(CacheFailure());
     }

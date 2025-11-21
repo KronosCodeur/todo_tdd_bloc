@@ -7,10 +7,7 @@ import 'package:todo_tdd_bloc/features/todo/presentation/bloc/todo_event.dart';
 class TodoItem extends StatelessWidget {
   final Todo todo;
 
-  const TodoItem({
-    super.key,
-    required this.todo,
-  });
+  const TodoItem({super.key, required this.todo});
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +18,13 @@ class TodoItem extends StatelessWidget {
         color: Colors.red,
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),
-        child: const Icon(
-          Icons.delete,
-          color: Colors.white,
-        ),
+        child: const Icon(Icons.delete, color: Colors.white),
       ),
       onDismissed: (_) {
         context.read<TodoBloc>().add(DeleteTodoEvent(todo.id));
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${todo.title} deleted')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('${todo.title} deleted')));
       },
       child: ListTile(
         leading: Checkbox(
@@ -73,9 +67,9 @@ class TodoItem extends StatelessWidget {
             onPressed: () {
               context.read<TodoBloc>().add(DeleteTodoEvent(todo.id));
               Navigator.of(dialogContext).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('${todo.title} deleted')),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('${todo.title} deleted')));
             },
             child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),

@@ -5,11 +5,7 @@ import 'package:todo_tdd_bloc/features/todo/domain/entities/todo.dart';
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  final tTodoModel = TodoModel(
-    id: '1',
-    title: 'Test Todo',
-    isCompleted: false,
-  );
+  final tTodoModel = TodoModel(id: '1', title: 'Test Todo', isCompleted: false);
 
   test('should be a subclass of Todo entity', () {
     expect(tTodoModel, isA<Todo>());
@@ -17,9 +13,7 @@ void main() {
 
   group('fromJson', () {
     test('should return a valid model from JSON', () {
-      final Map<String, dynamic> jsonMap = json.decode(
-        fixture('todo.json'),
-      );
+      final Map<String, dynamic> jsonMap = json.decode(fixture('todo.json'));
       final result = TodoModel.fromJson(jsonMap);
       expect(result, tTodoModel);
     });

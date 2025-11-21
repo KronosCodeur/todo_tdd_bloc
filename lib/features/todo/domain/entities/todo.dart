@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class Todo extends  Equatable {
+class Todo extends Equatable {
   final String id;
   final String title;
   final bool isCompleted;
@@ -13,6 +13,4 @@ class Todo extends  Equatable {
 
   @override
   List<Object?> get props => [id, title, isCompleted];
-
-
 }

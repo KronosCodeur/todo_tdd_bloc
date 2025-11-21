@@ -19,8 +19,9 @@ void main() {
     // Arrange
     const tId = '1';
 
-    when(() => mockRepository.deleteTodo(any()))
-        .thenAnswer((_) async => const Right(unit));
+    when(
+      () => mockRepository.deleteTodo(any()),
+    ).thenAnswer((_) async => const Right(unit));
 
     // Act
     final result = await usecase(tId);

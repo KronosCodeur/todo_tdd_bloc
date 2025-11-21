@@ -15,13 +15,14 @@ void main() {
     usecase = GetTodos(mockTodoRepository);
   });
 
-  test('should get todos from the repository', ()async{
+  test('should get todos from the repository', () async {
     final tTodos = [
       Todo(id: '1', title: 'Test Todo 1', isCompleted: false),
       Todo(id: '2', title: 'Test Todo 2', isCompleted: true),
     ];
-    when(() => mockTodoRepository.getTodos())
-        .thenAnswer((_) async => Right(tTodos));
+    when(
+      () => mockTodoRepository.getTodos(),
+    ).thenAnswer((_) async => Right(tTodos));
 
     final result = await usecase();
     expect(result, Right(tTodos));

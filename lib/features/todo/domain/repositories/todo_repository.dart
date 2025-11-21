@@ -7,5 +7,5 @@ abstract class TodoRepository {
   Future<Either<Failure, List<Todo>>> getTodos();
   Future<Either<Failure, ResponseEntity<Todo>>> addTodo(String title);
   Future<Either<Failure, Todo>> toggleTodo(String id);
-  Future<Either<Failure,Unit>> deleteTodo(String id);
+  Future<Either<Failure, Unit>> deleteTodo(String id);
 }

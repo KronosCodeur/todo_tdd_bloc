@@ -15,7 +15,7 @@ Future<void> init() async {
   //! Features - Todo
   // Bloc
   sl.registerFactory(
-        () => TodoBloc(
+    () => TodoBloc(
       getTodos: sl(),
       addTodo: sl(),
       toggleTodo: sl(),
@@ -30,12 +30,12 @@ Future<void> init() async {
 
   // Repository
   sl.registerLazySingleton<TodoRepository>(
-        () => TodoRepositoryImpl(localDataSource: sl()),
+    () => TodoRepositoryImpl(localDataSource: sl()),
   );
 
   // Data sources
   sl.registerLazySingleton<TodoLocalDataSource>(
-        () => TodoLocalDataSourceImpl(sharedPreferences: sl()),
+    () => TodoLocalDataSourceImpl(sharedPreferences: sl()),
   );
 
   //! Core

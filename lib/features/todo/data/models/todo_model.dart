@@ -1,7 +1,11 @@
 import 'package:todo_tdd_bloc/features/todo/domain/entities/todo.dart';
 
-class TodoModel  extends Todo{
-  const TodoModel({required super.id, required super.title, required super.isCompleted});
+class TodoModel extends Todo {
+  const TodoModel({
+    required super.id,
+    required super.title,
+    required super.isCompleted,
+  });
 
   factory TodoModel.fromJson(Map<String, dynamic> json) {
     return TodoModel(
@@ -11,10 +15,9 @@ class TodoModel  extends Todo{
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
-        'id': id,
-        'title': title,
-        'isCompleted': isCompleted,
-      };
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'isCompleted': isCompleted,
+  };
 }

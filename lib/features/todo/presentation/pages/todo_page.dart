@@ -15,10 +15,7 @@ class TodoPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => sl<TodoBloc>()..add(LoadTodosEvent()),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('My Todos'),
-          centerTitle: true,
-        ),
+        appBar: AppBar(title: const Text('My Todos'), centerTitle: true),
         body: const TodoBody(),
         floatingActionButton: const AddTodoButton(),
       ),
@@ -60,10 +57,7 @@ class TodoBody extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     'Tap the + button to add your first todo',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[500],
-                    ),
+                    style: TextStyle(fontSize: 16, color: Colors.grey[500]),
                   ),
                 ],
               ),
@@ -75,11 +69,7 @@ class TodoBody extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.error_outline,
-                  size: 80,
-                  color: Colors.red[300],
-                ),
+                Icon(Icons.error_outline, size: 80, color: Colors.red[300]),
                 const SizedBox(height: 16),
                 Text(
                   'Oops! Something went wrong',
@@ -92,10 +82,7 @@ class TodoBody extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   state.message,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton.icon(

@@ -15,9 +15,7 @@ void main() {
 
   setUp(() {
     mockLocalDataSource = MockTodoLocalDataSource();
-    repository = TodoRepositoryImpl(
-      localDataSource: mockLocalDataSource,
-    );
+    repository = TodoRepositoryImpl(localDataSource: mockLocalDataSource);
   });
 
   group('getTodos', () {
@@ -26,23 +24,28 @@ void main() {
       TodoModel(id: '2', title: 'Test 2', isCompleted: true),
     ];
 
-    test('should return cached data when the call to local data source is successful', () async {
-      // Arrange
-      when(() => mockLocalDataSource.getCachedTodos())
-          .thenAnswer((_) async => tTodoModels);
+    test(
+      'should return cached data when the call to local data source is successful',
+      () async {
+        // Arrange
+        when(
+          () => mockLocalDataSource.getCachedTodos(),
+        ).thenAnswer((_) async => tTodoModels);
 
-      // Act
-      final result = await repository.getTodos();
+        // Act
+        final result = await repository.getTodos();
 
-      // Assert
-      verify(() => mockLocalDataSource.getCachedTodos());
-      expect(result, equals(Right(tTodoModels)));
-    });
+        // Assert
+        verify(() => mockLocalDataSource.getCachedTodos());
+        expect(result, equals(Right(tTodoModels)));
+      },
+    );
 
     test('should return CacheFailure when there is no cached data', () async {
       // Arrange
-      when(() => mockLocalDataSource.getCachedTodos())
-          .thenThrow(CacheException());
+      when(
+        () => mockLocalDataSource.getCachedTodos(),
+      ).thenThrow(CacheException());
 
       // Act
       final result = await repository.getTodos();
@@ -61,10 +64,12 @@ void main() {
 
     test('should add todo and cache the updated list', () async {
       // Arrange
-      when(() => mockLocalDataSource.getCachedTodos())
-          .thenAnswer((_) async => tExistingTodos);
-      when(() => mockLocalDataSource.cacheTodos(any()))
-          .thenAnswer((_) async => {});
+      when(
+        () => mockLocalDataSource.getCachedTodos(),
+      ).thenAnswer((_) async => tExistingTodos);
+      when(
+        () => mockLocalDataSource.cacheTodos(any()),
+      ).thenAnswer((_) async => {});
 
       // Act
       final result = await repository.addTodo(tTitle);
@@ -73,22 +78,21 @@ void main() {
       verify(() => mockLocalDataSource.getCachedTodos());
       verify(() => mockLocalDataSource.cacheTodos(any()));
 
-      result.fold(
-            (failure) => fail('Should return Right'),
-            (response) {
-          expect(response.data.title, tTitle);
-          expect(response.data.isCompleted, false);
-          expect(response.success, true);
-        },
-      );
+      result.fold((failure) => fail('Should return Right'), (response) {
+        expect(response.data.title, tTitle);
+        expect(response.data.isCompleted, false);
+        expect(response.success, true);
+      });
     });
 
     test('should return CacheFailure when caching fails', () async {
       // Arrange
-      when(() => mockLocalDataSource.getCachedTodos())
-          .thenAnswer((_) async => tExistingTodos);
-      when(() => mockLocalDataSource.cacheTodos(any()))
-          .thenThrow(CacheException());
+      when(
+        () => mockLocalDataSource.getCachedTodos(),
+      ).thenAnswer((_) async => tExistingTodos);
+      when(
+        () => mockLocalDataSource.cacheTodos(any()),
+      ).thenThrow(CacheException());
 
       // Act
       final result = await repository.addTodo(tTitle);

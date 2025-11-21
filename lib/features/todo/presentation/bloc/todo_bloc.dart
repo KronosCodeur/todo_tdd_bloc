@@ -27,40 +27,39 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   Future<void> _onLoadTodos(
-      LoadTodosEvent event,
-      Emitter<TodoState> emit,
-      ) async {
+    LoadTodosEvent event,
+    Emitter<TodoState> emit,
+  ) async {
     emit(TodoLoading());
 
     final failureOrTodos = await getTodos();
 
     failureOrTodos.fold(
-          (failure) => emit(TodoError(_mapFailureToMessage(failure))),
-          (todos) => emit(TodoLoaded(todos)),
+      (failure) => emit(TodoError(_mapFailureToMessage(failure))),
+      (todos) => emit(TodoLoaded(todos)),
     );
   }
 
-  Future<void> _onAddTodo(
-      AddTodoEvent event,
-      Emitter<TodoState> emit,
-      ) async {
+  Future<void> _onAddTodo(AddTodoEvent event, Emitter<TodoState> emit) async {
     final currentState = state;
-    final currentTodos = currentState is TodoLoaded ? currentState.todos : <Todo>[];
+    final currentTodos = currentState is TodoLoaded
+        ? currentState.todos
+        : <Todo>[];
 
     emit(TodoLoading());
 
     final failureOrTodo = await addTodo(event.title);
 
     failureOrTodo.fold(
-          (failure) => emit(TodoError(_mapFailureToMessage(failure))),
-          (response) => emit(TodoLoaded([...currentTodos, response.data])),
+      (failure) => emit(TodoError(_mapFailureToMessage(failure))),
+      (response) => emit(TodoLoaded([...currentTodos, response.data])),
     );
   }
 
   Future<void> _onToggleTodo(
-      ToggleTodoEvent event,
-      Emitter<TodoState> emit,
-      ) async {
+    ToggleTodoEvent event,
+    Emitter<TodoState> emit,
+  ) async {
     final currentState = state;
     if (currentState is! TodoLoaded) return;
 
@@ -70,8 +69,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     final failureOrTodo = await toggleTodo(event.id);
 
     failureOrTodo.fold(
-          (failure) => emit(TodoError(_mapFailureToMessage(failure))),
-          (toggledTodo) {
+      (failure) => emit(TodoError(_mapFailureToMessage(failure))),
+      (toggledTodo) {
         final updatedTodos = currentTodos.map((todo) {
           return todo.id == toggledTodo.id ? toggledTodo : todo;
         }).toList();
@@ -81,9 +80,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   Future<void> _onDeleteTodo(
-      DeleteTodoEvent event,
-      Emitter<TodoState> emit,
-      ) async {
+    DeleteTodoEvent event,
+    Emitter<TodoState> emit,
+  ) async {
     final currentState = state;
     if (currentState is! TodoLoaded) return;
 
@@ -93,9 +92,11 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     final failureOrUnit = await deleteTodo(event.id);
 
     failureOrUnit.fold(
-          (failure) => emit(TodoError(_mapFailureToMessage(failure))),
-          (_) {
-        final updatedTodos = currentTodos.where((todo) => todo.id != event.id).toList();
+      (failure) => emit(TodoError(_mapFailureToMessage(failure))),
+      (_) {
+        final updatedTodos = currentTodos
+            .where((todo) => todo.id != event.id)
+            .toList();
         emit(TodoLoaded(updatedTodos));
       },
     );

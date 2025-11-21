@@ -26,20 +26,23 @@ void main() {
       TodoModel(id: '2', title: 'Test 2', isCompleted: true),
     ];
 
-    test('should return todos from SharedPreferences when there is data', () async {
-      final jsonString = fixture('todos_cached.json');
-      when(() => mockSharedPreferences.getString(any()))
-          .thenReturn(jsonString);
+    test(
+      'should return todos from SharedPreferences when there is data',
+      () async {
+        final jsonString = fixture('todos_cached.json');
+        when(
+          () => mockSharedPreferences.getString(any()),
+        ).thenReturn(jsonString);
 
-      final result = await dataSource.getCachedTodos();
+        final result = await dataSource.getCachedTodos();
 
-      verify(() => mockSharedPreferences.getString('CACHED_TODOS'));
-      expect(result, equals(tTodoModels));
-    });
+        verify(() => mockSharedPreferences.getString('CACHED_TODOS'));
+        expect(result, equals(tTodoModels));
+      },
+    );
 
     test('should throw CacheException when there is no cached data', () async {
-      when(() => mockSharedPreferences.getString(any()))
-          .thenReturn(null);
+      when(() => mockSharedPreferences.getString(any())).thenReturn(null);
 
       final call = dataSource.getCachedTodos;
 
@@ -53,18 +56,19 @@ void main() {
     ];
 
     test('should call SharedPreferences to cache the data', () async {
-      when(() => mockSharedPreferences.setString(any(), any()))
-          .thenAnswer((_) async => true);
+      when(
+        () => mockSharedPreferences.setString(any(), any()),
+      ).thenAnswer((_) async => true);
 
       await dataSource.cacheTodos(tTodoModels);
 
       final expectedJsonString = json.encode(
         tTodoModels.map((todo) => todo.toJson()).toList(),
       );
-      verify(() => mockSharedPreferences.setString(
-        'CACHED_TODOS',
-        expectedJsonString,
-      ));
+      verify(
+        () =>
+            mockSharedPreferences.setString('CACHED_TODOS', expectedJsonString),
+      );
     });
   });
 }
